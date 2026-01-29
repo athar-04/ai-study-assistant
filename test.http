@@ -1,0 +1,14 @@
+### Create Study Session
+POST http://localhost:8080/api/sessions
+Content-Type: application/json
+
+{
+  "topic": "Spring Boot",
+  "durationMinutes": 45,
+  "difficulty": "Medium"
+}
+
+###
+
+### Get All Study Sessions
+GET http://localhost:8080/api/sessions
