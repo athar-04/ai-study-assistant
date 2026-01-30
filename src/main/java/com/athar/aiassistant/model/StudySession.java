@@ -5,15 +5,23 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+
 @Document(collection = "study_sessions")
 public class StudySession {
 
     @Id
     private String id;
 
+    @NotBlank(message = "Topic must not be blank")
     private String topic;
+
+    @Min(value = 1, message = "Duration must be greater than 0")
     private int durationMinutes;
+
     private String difficulty;
+
     private LocalDateTime createdAt;
 
     public StudySession() {

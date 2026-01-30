@@ -9,25 +9,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.athar.aiassistant.model.StudySession;
-import com.athar.aiassistant.repository.StudySessionRepository;
+import com.athar.aiassistant.service.StudySessionService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/sessions")
 public class StudySessionController {
 
-    private final StudySessionRepository repository;
+    private final StudySessionService service;
 
-    public StudySessionController(StudySessionRepository repository) {
-        this.repository = repository;
+    public StudySessionController(StudySessionService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public StudySession createSession(@RequestBody StudySession session) {
-        return repository.save(session);
+    public StudySession createSession(@Valid @RequestBody StudySession session) {
+        return service.createSession(session);
     }
 
     @GetMapping
     public List<StudySession> getAllSessions() {
-        return repository.findAll();
+        return service.getAllSessions();
     }
 }

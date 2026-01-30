@@ -1,14 +1,25 @@
-### Create Study Session
+### Create Study Session (VALID request)
 POST http://localhost:8080/api/sessions
 Content-Type: application/json
 
 {
   "topic": "Spring Boot",
   "durationMinutes": 45,
-  "difficulty": "Medium"
+  "difficulty": "MEDIUM"
 }
 
 ###
 
 ### Get All Study Sessions
 GET http://localhost:8080/api/sessions
+
+###
+
+### Validation test - BAD request
+POST http://localhost:8080/api/sessions
+Content-Type: application/json
+
+{
+  "topic": "",
+  "durationMinutes": -10
+}
