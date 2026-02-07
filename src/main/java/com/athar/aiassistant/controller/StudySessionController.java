@@ -14,8 +14,15 @@ import com.athar.aiassistant.dto.StudySessionResponse;
 import com.athar.aiassistant.response.ApiResponse;
 import com.athar.aiassistant.service.StudySessionService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import jakarta.validation.Valid;
 
+@Tag(
+    name = "Study Sessions",
+    description = "APIs related to creating and managing study sessions"
+)
 @RestController
 @RequestMapping("/api/sessions")
 public class StudySessionController {
@@ -25,6 +32,11 @@ public class StudySessionController {
     public StudySessionController(StudySessionService service) {
         this.service = service;
     }
+
+     @Operation(
+        summary = "Create a study session",
+        description = "Creates a new study session with topic and difficulty level"
+    )
 
     // Create Study Session
     @PostMapping
@@ -39,6 +51,10 @@ public class StudySessionController {
                 response
         );
     }
+     @Operation(
+        summary = "Get all study sessions",
+        description = "Fetches all study sessions without pagination"
+    )
 
     //Get all sessions (non-paginated)
     @GetMapping
@@ -52,7 +68,12 @@ public class StudySessionController {
                 sessions
         );
     }
-
+    
+     @Operation(
+        summary = "Get paginated study sessions",
+        description = "Fetches study sessions with pagination and sorting support"
+    )
+    
     // Get paginated & sorted sessions (Day 4 feature)
     @GetMapping("/paged")
     public ApiResponse<?> getPagedSessions(
