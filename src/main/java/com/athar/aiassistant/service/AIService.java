@@ -25,31 +25,22 @@ public class AIService {
         this.webClient = webClientBuilder.build();
     }
 
-    public String generateInterviewQuestion(String topic, String difficulty) {
+    /**
+ * Mock AI implementation.
+ * Real OpenAI integration exists but is disabled due to billing constraints.
+ */
+public String generateInterviewQuestion(String topic, String difficulty) {
 
-        String prompt = "Generate a " + difficulty +
-                " level interview question on " + topic + ".";
+    return switch (difficulty.toLowerCase()) {
+        case "easy" ->
+                "What is " + topic + " and why is it used?";
+        case "medium" ->
+                "Can you explain the core concepts of " + topic + " and how it works internally?";
+        case "hard" ->
+                "Explain advanced concepts of " + topic + " and discuss real-world challenges.";
+        default ->
+                "Explain " + topic + " in detail.";
+    };
+}
 
-        Map<String, Object> requestBody = Map.of(
-                "model", model,
-                "messages", List.of(
-                        Map.of("role", "user", "content", prompt)
-                )
-        );
-
-        Map response = webClient.post()
-                .uri(apiUrl)
-                .header("Authorization", "Bearer " + apiKey)
-                .header("Content-Type", "application/json")
-                .bodyValue(requestBody)
-                .retrieve()
-                .bodyToMono(Map.class)
-                .block();
-
-        // Extract AI response safely
-        List<Map> choices = (List<Map>) response.get("choices");
-        Map message = (Map) choices.get(0).get("message");
-
-        return message.get("content").toString();
-    }
 }
