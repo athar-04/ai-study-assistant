@@ -6,7 +6,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- VALID Spring Boot version -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -26,10 +25,16 @@
 
     <dependencies>
 
-        <!-- Spring Web -->
+        <!-- Spring MVC (REST APIs) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- WebClient (for calling LLM APIs like OpenAI / Gemini) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
         <!-- MongoDB -->
@@ -65,16 +70,8 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- OpenAI API (via Spring Web / HTTP client) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
-
-
     </dependencies>
 
-    <!-- NO maven-compiler-plugin -->
     <build>
         <plugins>
             <plugin>

@@ -12,35 +12,65 @@ public class AIService {
 
     private final WebClient webClient;
 
-    @Value("${openai.api.key}")
+    @Value("${gemini.api.key}")
     private String apiKey;
 
-    @Value("${openai.api.url}")
-    private String apiUrl;
+    @Value("${gemini.api.base-url}")
+    private String baseUrl;
 
-    @Value("${openai.model}")
+    @Value("${gemini.model}")
     private String model;
 
-    public AIService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.build();
+    public AIService(WebClient.Builder builder) {
+        this.webClient = builder.build();
     }
 
-    /**
- * Mock AI implementation.
- * Real OpenAI integration exists but is disabled due to billing constraints.
- */
-public String generateInterviewQuestion(String topic, String difficulty) {
+    public String generateInterviewQuestion(String topic, String difficulty) {
 
-    return switch (difficulty.toLowerCase()) {
-        case "easy" ->
-                "What is " + topic + " and why is it used?";
-        case "medium" ->
-                "Can you explain the core concepts of " + topic + " and how it works internally?";
-        case "hard" ->
-                "Explain advanced concepts of " + topic + " and discuss real-world challenges.";
-        default ->
-                "Explain " + topic + " in detail.";
-    };
-}
+        String prompt = String.format(
+                "Generate a %s level interview question on %s. Return only the question text.",
+                difficulty, topic
+        );
 
+        Map<String, Object> requestBody = Map.of(
+                "contents", List.of(
+                        Map.of("parts", List.of(
+                                Map.of("text", prompt)
+                        ))
+                )
+        );
+
+        String url = baseUrl + "/" + model + ":generateContent?key=" + apiKey;
+
+        try {
+            Map response = webClient.post()
+                    .uri(url)
+                    .bodyValue(requestBody)
+                    .retrieve()
+                    .bodyToMono(Map.class)
+                    .block();
+
+            return extractText(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Gemini API error: " + e.getMessage();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private String extractText(Map response) {
+
+        if (response == null) return "No response from Gemini";
+
+        List<Map> candidates = (List<Map>) response.get("candidates");
+        if (candidates == null || candidates.isEmpty()) {
+            return "No candidates returned";
+        }
+
+        Map content = (Map) candidates.get(0).get("content");
+        List<Map> parts = (List<Map>) content.get("parts");
+
+        return parts.get(0).get("text").toString().trim();
+    }
 }
