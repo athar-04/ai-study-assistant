@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8080/api/ai";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 /**
  * Generate an AI interview question
@@ -7,16 +7,19 @@ const API_BASE_URL = "http://localhost:8080/api/ai";
  * @returns {Promise<string>} Generated question
  */
 export async function generateInterviewQuestion(topic, difficulty) {
-  const response = await fetch(`${API_BASE_URL}/interview-question`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      topic,
-      difficulty,
-    }),
-  });
+  const response = await fetch(
+    `${API_BASE_URL}/api/ai/interview-question`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        topic,
+        difficulty,
+      }),
+    }
+  );
 
   if (!response.ok) {
     const errorText = await response.text();
