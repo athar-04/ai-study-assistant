@@ -14,14 +14,15 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins(
-                                "http://localhost:5173",
-                                "http://localhost:3000",
-                                "https://ai-study-assistant-questions.vercel.app"
+                        .allowedOriginPatterns(
+                                "http://localhost:*",
+                                "https://*.vercel.app",
+                                "https://ai-study-assistant-interview-questions.up.railway.app"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(true);
+                        .exposedHeaders("*")
+                        .allowCredentials(false);
             }
         };
     }
