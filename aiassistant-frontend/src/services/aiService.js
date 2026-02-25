@@ -1,11 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-/**
- * Generate an AI interview question
- * @param {string} topic
- * @param {string} difficulty
- * @returns {Promise<string>} Generated question
- */
 export async function generateInterviewQuestion(topic, difficulty) {
   const response = await fetch(
     `${API_BASE_URL}/api/ai/interview-question`,
@@ -14,10 +8,7 @@ export async function generateInterviewQuestion(topic, difficulty) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        topic,
-        difficulty,
-      }),
+      body: JSON.stringify({ topic, difficulty }),
     }
   );
 
@@ -27,7 +18,5 @@ export async function generateInterviewQuestion(topic, difficulty) {
   }
 
   const result = await response.json();
-
-  // Backend contract: { success, message, data: { question } }
   return result?.data?.question || "No question generated";
 }
