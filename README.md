@@ -46,7 +46,7 @@ User → React Frontend → Spring Boot Backend → AI API (OpenAI / Gemini) →
 
 1. Clone the repository
 
-git clone https://github.com/yourusername/ai-study-assistant.git
+git clone https://github.com/athar-04/ai-study-assistant.git
 
 2. Navigate to project directory
 
