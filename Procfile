@@ -1,0 +1,1 @@
+web: java -Xms128m -Xmx256m -jar target/*.jar
