@@ -21,5 +21,5 @@ public class OpenApiConfig {
                                 .email("athar@example.com")
                         )
                 );
-    }
+        }
 }
